@@ -63,33 +63,30 @@ def decrypt_string(int_arr):
 				break
 			
 			while m < 16:
-
-				str_pass[k] 	= m
-				string 		+= char
-				k 		+= 1
-	
+				str_pass[k] 		= m
+				string 			+= char
+				k 			+= 1
 				md1 			= calc_md5(string[:i+1])[:16]    
 				md2 			= calc_md5(str(int_md5_total))[:16]
 				int_md5_total		= eval_cross_total(md1+md2)
 			
 				int_char 		= int_md5_total + int_arr[i+1] - m
-	
 				if int_char not in range(32,127) or int_md5_total < 115:
 					m 		+= 1 
-					
-				char 			= chr(int_char)
-				string 			+= char
-				set_trace()
+				else:	
+					char 			= chr(int_char)
+					string 			+= char
+					break	
 	
-		# found the right string
+		# found string with length 32
 		set_trace()
 		if encrypt_string(string,'key',str_pass) == int_arr[:32]:
 			loop = False
 			break
 		else:	
-			m 	= m + 1 % 16
-			string 	= string[:-1]
-		j += 1 		
+			m 		= m + 1 % 16
+			string 		= string[:-1]
+			str_pass[31] 	= None
 		
 	return string		
 			
