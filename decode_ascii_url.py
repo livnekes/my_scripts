@@ -15,8 +15,6 @@ def parse_str(arr,shift):
 	
 
 def main():
-	#username = 'livne'
-	#password = 'rootMEin!2'
 	#res = requests.get(URL, auth=('username', 'password'))
 	#cookies = res.cookies
 	

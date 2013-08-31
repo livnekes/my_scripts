@@ -39,16 +39,6 @@ def parse_str(string):
 
 def main():
 
-	#payload = {'username': 'livne', 'password': 'rootMEin!2' , 'btn_submit': 'Login'}
-	#data = urllib.urlencode(payload)
-	#req = urllib2.Request(LOGIN, data)
-	#opener = urllib2.build_opener()
-	#opener.addheaders.append(('Referer', 'https://www.hackthissite.org/'))
-	#res = opener.open(req)
-	#source = res.read()
-	#cookies = res.headers.getheader('set-cookie').split(';')[0]
-	#print cookies
-
 	opener = urllib2.build_opener()
 	#opener.addheaders.append(('Cookie', cookies))	
 	opener.addheaders.append(('Cookie', COOKIE))
