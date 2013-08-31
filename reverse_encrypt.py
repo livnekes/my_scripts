@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 import sys,re
 from pdb import set_trace
 from hashlib import md5
@@ -17,9 +16,7 @@ spacing_chars = ['.','-','\n']
 known_chars = [i for i in chars]
 known_chars.extend(spacing_chars)
 decrypt_str_password_md5 = None
-max_threads = 10
 lock = Lock()
-
 
 def calc_md5(string):
 	""" Calc md5 - 32 hexa digits"""
@@ -81,12 +78,15 @@ def decrypt_int_array(int_arr, str_password_md5):
 			
 def decrypt_string(int_arr):
 	""" Decrypt int array into string"""
+	global cur_threads
+
 	for int_md5_total in range(115,481):
 		for char in chars:
 			str_md5_pass 	= [None]*40
 			j 		= int_arr[0] - ord(char) + int_md5_total
 			if j not in range(16):
 				continue
+
 			str_md5_pass[0] = hex(j)[-1]
 			thread = Thread(target = decrypt_recursive, args = (char, int_md5_total, int_arr, 0, str_md5_pass))
     			thread.start()
@@ -94,8 +94,9 @@ def decrypt_string(int_arr):
  
 def decrypt_recursive(string, int_md5_total, int_arr, pos, str_md5_pass):	
 	""" Decrypt recursive int array into string"""
-	global decrypt_str_password_md5
-	if pos in (3,7,11,15,23,27,31,35) and string[pos] != '-':
+	global decrypt_str_password_md5, cur_threads
+
+	if pos in (3,7,11,15,23,27,31) and string[pos] != '-':
 		return False
 	elif pos in (8,28) and string[pos] != 'O':
 		return False
@@ -103,23 +104,23 @@ def decrypt_recursive(string, int_md5_total, int_arr, pos, str_md5_pass):
 		return False
 	elif pos in (10,30) and string[pos] != 'M':
 		return False
-	elif pos in (16,18,36,38) and string[pos] != '1':
+	elif pos in (16,18) and string[pos] != '1':
 		return False
-	elif pos in (17,37) and string[pos] != '.':
+	elif pos == 17 and string[pos] != '.':
 		return False
 	elif pos in [19] and string[pos] != '\n':
 		return False
-	elif pos == 39 and string[pos] == '\n':	
+	elif pos == 31:	
 		str_md5_test = ''.join(str_md5_pass[:32])
-		print string
-		if decrypt_int_array(int_arr[:40], str_md5_test) == string:
+		# found the right string and str_md5_pass
+		if decrypt_int_array(int_arr[:32], str_md5_test) == string:
 			lock.acquire()
 			decrypt_str_password_md5 = str_md5_test
 			lock.release()
 			return True
 		return False
 
-	elif pos in (0,1,2,4,5,6,12,13,14,20,21,22,24,25,26,32,33,34) and string[pos] in spacing_chars:
+	elif pos in (0,1,2,4,5,6,12,13,14,20,21,22,24,25,26) and string[pos] in spacing_chars:
 		return False
 
 	int_md5_total	  = get_new_int_md5_total(string, int_md5_total)
@@ -146,7 +147,7 @@ def main():
 	
 	# each serial number has 20 digits
 	a = encrypt_string(data_example,'pass')
-	a = '-152 -205 -158 -178 -163 -179 -129 -154 -156 -166 -161 -200 -135 -182 -192 -195 -160 -159 -213 -211 -109 -181 -138 -191 -139 -133 -167 -160 -132 -193 -143 -236 -163 -186 -198 -191 -185 -198 -223 -163 -172 -160 -186 -227 -119 -146 -177 -180 -96 -151 -157 -146 -182 -161 -126 -153 -203 -159 -162 -258 -145 -191 -181 -197 -178 -120 -128 -195 -197 -153 -128 -212 -176 -148 -157 -194 -171 -216 -143 -236 -154 -224 -154 -189 -129 -167 -220 -202 -167 -133 -173 -196 -122 -174 -237 -201 -212 -186 -204 -233'
+	a = '-171 -141 -109 -158 -179 -151 -142 -196 -146 -223 -180 -195 -174 -133 -156 -137 -199 -185 -162 -216 -94 -160 -153 -204 -158 -192 -187 -180 -174 -173 -143 -145 -141 -176 -147 -182 -194 -173 -179 -195 -184 -190 -137 -143 -153 -145 -170 -204 -118 -202 -124 -160 -163 -209 -165 -228 -191 -156 -208 -215 -158 -171 -164 -165 -123 -147 -170 -193 -166 -183 -143 -196 -132 -166 -180 -156 -199 -144 -169 -198 -135 -143 -228 -176 -135 -133 -148 -187 -146 -137 -184 -173 -145 -207 -147 -175 -156 -156 -194 -239'
 	int_arr = [int(l) for l in a.split(' ')]
 	
 	decrypt_string(int_arr) 
