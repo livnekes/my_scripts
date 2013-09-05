@@ -24,12 +24,9 @@ def send_http_post(cookies, url, payload = {}):
 	opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookies))
 	opener.addheaders.append(('Referer', REFERER))
 
-	try:
-		f = opener.open(req)
-		source = f.read()
-		print source
-	except:
-		print 'failed to send'
+	f = opener.open(req)
+	source = f.read()
+	print source
 
 def get_url_cookies():
 	""" Login to url and retrive cookies """
@@ -56,6 +53,7 @@ def main():
 	PASSWORD = sys.argv[2]
 	print USERNAME,PASSWORD
 
+	# test a url
 	url = 'http://www.enigmagroup.org/missions/basics/um/2/%2527/'
 	cookies = get_url_cookies()
 	send_http_post(cookies,url)
