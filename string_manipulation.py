@@ -41,7 +41,6 @@ def parse_str(string):
 def main():
 
 	opener = urllib2.build_opener()
-	#opener.addheaders.append(('Cookie', cookies))	
 	opener.addheaders.append(('Cookie', COOKIE))
 	opener.addheaders.append(('Referer', SITE))
 	f = opener.open(URL)
