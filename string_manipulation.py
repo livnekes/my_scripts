@@ -7,8 +7,9 @@ import time
 import urllib2
 import requests
 
-URL 	= "https://www.hackthissite.org/missions/prog/12/"
-LOGIN 	= "https://www.hackthissite.org/user/login"
+SITE 	= "https://www.hackthissite.org/"
+URL 	= SITE + "missions/prog/12/"
+LOGIN 	= SITE + "user/login"
 COOKIE 	= 'PHPSESSID=kst1nvaf7td1ir16ajbkm29o72'
 
 def get_input(input_str):
@@ -42,7 +43,7 @@ def main():
 	opener = urllib2.build_opener()
 	#opener.addheaders.append(('Cookie', cookies))	
 	opener.addheaders.append(('Cookie', COOKIE))
-	opener.addheaders.append(('Referer', 'https://www.hackthissite.org/'))
+	opener.addheaders.append(('Referer', SITE))
 	f = opener.open(URL)
 	source = f.read()
 	soup = BeautifulSoup(source)
@@ -57,7 +58,7 @@ def main():
 	req = urllib2.Request(url, data)
 	opener = urllib2.build_opener()
 	opener.addheaders.append(('Cookie', COOKIE))
-	opener.addheaders.append(('Referer', 'https://www.hackthissite.org'))
+	opener.addheaders.append(('Referer', SITE))
 	f = opener.open(req)
 	source = f.read()
 	print source
