@@ -1,3 +1,5 @@
+# This python file contains utility functions to manage http connection.
+
 import urllib, urllib2
 import requests
 import cookielib
@@ -14,7 +16,8 @@ def send_http_post(cookies, url, referer, payload = {}):
     return opener.open(req)
 
 def makeCookie(name, value, domain):
-    """ make a simple cookie to add to the jar """
+    """ Make a simple cookie to add to the jar """
+
     return cookielib.Cookie(
         version = 0,
         name = name,
