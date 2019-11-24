@@ -7,12 +7,10 @@ def main():
     parser.add_argument("-r", dest = "regex_str", help = "The regex")
     args = parser.parse_args()
 
-    regex = r"\b(?=\w)" + re.escape(args.regex_str) + r"\b(?!\w)"
-    
     f = open(args.file, "r")
     fl = f.readlines()
     for x in fl:
-        if re.search(regex, x):
+        if re.search(re.escape(args.regex_str), x):
             print x
 if __name__== "__main__":
     #python test.py -f cube_solver.py
